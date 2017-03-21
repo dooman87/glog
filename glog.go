@@ -398,6 +398,8 @@ type flushSyncWriter interface {
 func init() {
 	flag.BoolVar(&logging.toStderr, "logtostderr", false, "log to standard error instead of files")
 	flag.BoolVar(&logging.alsoToStderr, "alsologtostderr", false, "log to standard error as well as files")
+	flag.BoolVar(&logging.toStd, "logtostd", false, "log to standard output and standard error instead of files")
+	flag.BoolVar(&logging.alsoToStd, "alsologtostd", false, "log to standard output and standard error as well as files")
 	flag.Var(&logging.verbosity, "v", "log level for V logs")
 	flag.Var(&logging.stderrThreshold, "stderrthreshold", "logs at or above this threshold go to stderr")
 	flag.Var(&logging.vmodule, "vmodule", "comma-separated list of pattern=N settings for file-filtered logging")
@@ -422,6 +424,9 @@ type loggingT struct {
 	// compatibility. TODO: does this matter enough to fix? Seems unlikely.
 	toStderr     bool // The -logtostderr flag.
 	alsoToStderr bool // The -alsologtostderr flag.
+	toStd        bool // The -logtostd flag
+	alsoToStd    bool // The -alsologtostd flag
+
 
 	// Level flag. Handled atomically.
 	stderrThreshold severity // The -stderrthreshold flag.

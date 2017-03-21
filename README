@@ -42,3 +42,17 @@ Google, not here. The code in this repo is for export only and is not itself
 under development. Feature requests will be ignored.
 
 Send bug reports to golang-nuts@googlegroups.com.
+
+This fork
+=========
+
+Current status is work in progress.
+
+The intention of this fork is to provide ability to log WARN and below levels to stdout and ERROR and above to stderr.
+Then it will provide better integration with containers and log aggregators (in my case Kubernetes and Stackdriver).
+
+As a result two new options have been added:
+
+* logtostd - log to standard output and standard error instead of files
+* alsologtostd - log to standard output and standard error as well as files
+
