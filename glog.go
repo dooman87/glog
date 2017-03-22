@@ -686,10 +686,21 @@ func (l *loggingT) output(s severity, buf *buffer, file string, line int, alsoTo
 		os.Stderr.Write(data)
 	} else if l.toStderr {
 		os.Stderr.Write(data)
-	} else {
-		if alsoToStderr || l.alsoToStderr || s >= l.stderrThreshold.get() {
-			os.Stderr.Write(data)
+	} else if l.toStd {
+		if s >= errorLog {
+			os.Stderr.Write(data);
+		} else {
+			os.Stdout.Write(data);
 		}
+	} else {
+		if alsoToStderr || l.alsoToStderr || l.alsoToStd || s >= l.stderrThreshold.get() {
+			if l.alsoToStd && s < errorLog {
+				os.Stdout.Write(data)
+			} else {
+				os.Stderr.Write(data)
+			}
+		}
+
 		if l.file[s] == nil {
 			if err := l.createFiles(s); err != nil {
 				os.Stderr.Write(data) // Make sure the message appears somewhere.
