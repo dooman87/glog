@@ -400,7 +400,7 @@ type flushSyncWriter interface {
 func init() {
 	flag.BoolVar(&logging.toStderr, "logtostderr", false, "log to standard error instead of files")
 	flag.BoolVar(&logging.alsoToStderr, "alsologtostderr", false, "log to standard error as well as files")
-	flag.BoolVar(&logging.toStd, "logtostd", false, "log to standard output or standard error instead of files")
+	flag.BoolVar(&logging.toStd, "logtostd", false, "log to standard output (below ERROR level) or standard error (ERROR and above) instead of files")
 	flag.Var(&logging.verbosity, "v", "log level for V logs")
 	flag.Var(&logging.stderrThreshold, "stderrthreshold", "logs at or above this threshold go to stderr")
 	flag.Var(&logging.vmodule, "vmodule", "comma-separated list of pattern=N settings for file-filtered logging")
@@ -695,7 +695,6 @@ func (l *loggingT) output(s severity, buf *buffer, file string, line int, alsoTo
 		if alsoToStderr || l.alsoToStderr || s >= l.stderrThreshold.get() {
 			os.Stderr.Write(data)
 		}
-
 		if l.file[s] == nil {
 			if err := l.createFiles(s); err != nil {
 				os.Stderr.Write(data) // Make sure the message appears somewhere.
